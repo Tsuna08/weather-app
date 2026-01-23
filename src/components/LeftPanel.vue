@@ -90,6 +90,7 @@ const weatherCode = computed(() => {
   display: flex;
   gap: 8px;
   align-items: center;
+  text-transform: capitalize;
 }
 .temp {
   font-size: 50px;
