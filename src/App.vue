@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { onMounted, provide, ref, watch } from "vue";
 
-import Statistics from "@/components/Statistics.vue";
-
-import CitySelect from "@/components/CitySelect.vue";
-import Error from "@/components/Error.vue";
-import DayCard from "./components/DayCard.vue";
-
-const API_ENDPOINT = "http://api.weatherapi.com/v1";
+import RightPanel from "./components/RightPanel.vue";
+import { API_ENDPOINT, cityProvide } from "./constants";
+import LeftPanel from "./components/LeftPanel.vue";
 
 const data = ref();
 const error = ref();
+let activeIndex = ref<number>(0);
+let city = ref<string>("Moscow");
 
-const indication = computed(() => {
-  if (!data.value) return [];
-  return [
-    { label: "Humidity", value: data.value.current.humidity + " %" },
-    { label: "Wind", value: data.value.current.wind_kph + " km/h" },
-    { label: "Cloudy", value: data.value.current.cloud + " %" },
-  ];
+provide(cityProvide, city);
+
+watch(city, () => {
+  getCity(city.value);
+});
+
+onMounted(() => {
+  getCity(city.value);
 });
 
 const getCity = async (city: string) => {
@@ -42,33 +41,16 @@ const getCity = async (city: string) => {
 </script>
 
 <template>
-  <main class="main">
-    <Error v-if="error" :error="error?.error?.message" />
-    <template v-else-if="data">
-      <Statistics v-for="item in indication" v-bind="item" :key="item.label" />
-      <template class="days">
-        <DayCard
-          v-for="item in data.forecast.forecastday"
-          :key="item.date"
-          :weather-code="item.day.condition.code"
-          :temp="item.day.avgtemp_c"
-          :date="new Date(item.date)"
-      /></template>
-    </template>
-    <CitySelect @select-city="getCity" />
+  <main>
+    <LeftPanel v-if="data" :day-data="data.forecast.forecastday[activeIndex]" />
+    <RightPanel :data :error :active-index="activeIndex" @select-index="i => (activeIndex = i)" />
   </main>
 </template>
 
 <style scoped>
-.main {
-  background: var(--color-bg-main);
-  padding: 60px 50px;
-  border-radius: 25px;
-}
-
-.days {
+main {
   display: flex;
-  flex-direction: row;
-  gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
 </style>

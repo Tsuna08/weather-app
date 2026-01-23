@@ -3,7 +3,7 @@ const data = defineModel({ type: String });
 </script>
 
 <template>
-  <input v-model="data" class="input" />
+  <input v-model="data" v-focus class="input" />
 </template>
 
 <style scoped lang="scss">

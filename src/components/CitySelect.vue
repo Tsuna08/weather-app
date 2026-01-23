@@ -1,30 +1,26 @@
 <script setup lang="ts">
-import { onMounted, watch, ref } from "vue";
-
+import { ref, inject, type Ref } from "vue";
 import Button from "@/components/Button.vue";
-import IconLocation from "@/components/icon/IconLocation.vue";
-
+import IconLocation from "@/components/icons/IconLocation.vue";
 import Input from "./Input.vue";
+import { cityProvide } from "@/constants";
 
-const emit = defineEmits({
-  selectCity(payload) {
-    return payload;
-  },
-});
+const cityRef = inject<Ref<string>>(cityProvide);
 
-let city = ref("Moscow");
+if (!cityRef) {
+  throw new Error("City provider is missing");
+}
+
+const inputValue = ref(cityRef.value);
 const isEdited = ref(false);
 
-onMounted(() => {
-  emit("selectCity", city.value);
-});
-
 const select = () => {
+  cityRef.value = inputValue.value;
   isEdited.value = false;
-  emit("selectCity", city.value);
 };
 
 const edit = () => {
+  inputValue.value = cityRef.value;
   isEdited.value = true;
 };
 </script>
@@ -32,7 +28,7 @@ const edit = () => {
 <template>
   <div class="city-select">
     <div v-if="isEdited" class="city-input">
-      <Input v-model="city" placeholder="Enter city" @keyup.enter="select" />
+      <Input v-model="inputValue" placeholder="Enter city" @keyup.enter="select" />
       <Button @click="select">Save</Button>
     </div>
     <Button v-else @click="edit">
@@ -44,7 +40,7 @@ const edit = () => {
 
 <style scoped>
 .city-select {
-  width: 400px;
+  width: 350px;
 }
 
 .city-input {

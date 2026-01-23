@@ -6,18 +6,14 @@ const { label, value = "-" } = defineProps({
 </script>
 
 <template>
-  <div class="statistics">
-    <div class="name">
-      {{ label }}
-    </div>
-    <div class="value">
-      {{ value }}
-    </div>
+  <div class="statistic">
+    <div class="name">{{ label }}</div>
+    <div class="value">{{ value }}</div>
   </div>
 </template>
 
 <style scoped>
-.statistics {
+.statistic {
   display: flex;
   justify-content: space-between;
   gap: 16px;

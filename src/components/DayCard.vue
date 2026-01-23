@@ -1,29 +1,38 @@
 <script setup lang="ts">
-import IconCloud from "./icon/IconCloud.vue";
-import IconRain from "./icon/IconRain.vue";
-import IconSun from "./icon/IconSun.vue";
+import { computed } from "vue";
+import IconCloud from "./icons/IconCloud.vue";
+import IconRain from "./icons/IconRain.vue";
+import IconSun from "./icons/IconSun.vue";
 
-const { weatherCode, temp, date } = defineProps({
+const { weatherCode, temp, date, isActive } = defineProps({
   weatherCode: Number,
   temp: Number,
   date: Date,
+  isActive: Boolean,
+});
+
+const iconColor = computed(() => {
+  return isActive ? "var(--color-primary-inverted)" : "var(--color-primary)";
 });
 </script>
+
 <template>
-  <button class="card">
+  <button class="card" :class="{ active: isActive }">
     <template v-if="weatherCode">
       <IconSun v-if="weatherCode <= 1003" :size="50" />
       <IconCloud v-if="weatherCode >= 1006 && weatherCode < 1063" :size="50" />
-      <IconRain v-if="weatherCode >= 1063" :size="50" />
+      <IconRain v-if="weatherCode >= 1063" :size="50" :color="iconColor" />
     </template>
     <div class="day">{{ date?.toLocaleDateString("en-EN", { weekday: "short" }) }}</div>
     <div class="temp">{{ temp }} °C</div>
   </button>
 </template>
+
 <style scoped>
 .card {
+  width: 110px;
   color: var(--color-primary);
-  padding: 20px 24px;
+  padding: 15px;
   background-color: var(--color-bg-card);
   display: flex;
   flex-direction: column;
@@ -36,8 +45,13 @@ const { weatherCode, temp, date } = defineProps({
   cursor: pointer;
 }
 
-.card:hover {
+.card:not(.active):hover {
   background-color: var(--color-bg);
+}
+
+.active {
+  background-color: var(--color-primary);
+  color: var(--color-primary-inverted);
 }
 
 .day {
