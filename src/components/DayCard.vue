@@ -19,8 +19,8 @@ const iconColor = computed(() => {
 <template>
   <button class="card" :class="{ active: isActive }">
     <template v-if="weatherCode">
-      <IconSun v-if="weatherCode <= 1003" :size="50" />
-      <IconCloud v-if="weatherCode >= 1006 && weatherCode < 1063" :size="50" />
+      <IconSun v-if="weatherCode <= 1003" :size="50" :color="iconColor" />
+      <IconCloud v-if="weatherCode >= 1006 && weatherCode < 1063" :size="50" :color="iconColor" />
       <IconRain v-if="weatherCode >= 1063" :size="50" :color="iconColor" />
     </template>
     <div class="day">{{ date?.toLocaleDateString("en-EN", { weekday: "short" }) }}</div>
