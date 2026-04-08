@@ -1,30 +1,60 @@
-# weather-vue
+# Weather App
 
-The Weather Vue is a system for viewing weather in various cities around the world
+A weather application built with Vue.js and TypeScript.
 
-Layout the main page:
-![alt text](image.png)
+## Preview
 
-## Project Setup
+![Weather App Preview](image.png)
 
-```sh
-yarn
+## Technologies
+
+- **Vue.js**
+- **TypeScript**
+- **Vite**
+- **CSS**
+
+## Architecture
+
+```
+src/
+├── App.vue                 # Main application component
+├── constants.ts           # Application constants
+├── main.ts                # Application entry point
+├── assets/                # Static assets
+│   ├── base.css           # Base styles
+│   └── main.css           # Main styles
+│
+├── components/            # Reusable components
+│   ├── Button.vue         # Button component
+│   ├── CitySelect.vue     # City selection component
+│   ├── DayCard.vue        # Weather day card component
+│   ├── Error.vue          # Error display component
+│   ├── Input.vue          # Input field component
+│   ├── LeftPanel.vue      # Left panel layout
+│   ├── RightPanel.vue     # Right panel layout
+│   ├── Statistic.vue      # Weather statistics component
+│   └── icons/             # Icon components
+│       ├── IconCloud.vue  # Cloud icon
+│       ├── IconLocation.vue # Location icon
+│       ├── IconRain.vue   # Rain icon
+│       └── IconSun.vue    # Sun icon
 ```
 
-### Compile and Hot-Reload for Development
+## Development
 
-```sh
+```bash
+# Install dependencies
+yarn install
+
+# Start development server
 yarn dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# Build the project
 yarn build
-```
 
-### Lint with [ESLint](https://eslint.org/)
+# Run linter
+yarn lint
 
-```sh
+# Run prettier
 yarn lint
 ```
