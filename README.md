@@ -52,9 +52,15 @@ yarn dev
 # Build the project
 yarn build
 
+# Preview the build
+yarn preview
+
+# Run type-checking
+yarn type-check
+
 # Run linter
 yarn lint
 
-# Run prettier
-yarn lint
+# Format code
+yarn format
 ```
